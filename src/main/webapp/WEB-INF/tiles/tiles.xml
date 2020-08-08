@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <definition name="index" template="/WEB-INF/view/layout.jsp">
+        <put-attribute name="localHeader" value="/WEB-INF/view/localHeader.jsp"/>
+        <put-attribute name="main" value="/WEB-INF/view/main.jsp"/>
+        <put-attribute name="localScript" value="/WEB-INF/view/localScript.jsp"/>
+    </definition>
+</tiles-definitions>

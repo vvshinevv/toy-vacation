@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vacation">
+
+    <resultMap id="member" type="com.vacation.dto.MemberDTO">
+        <result property="member_no" column="memberNo"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <resultMap id="vacation" type="com.vacation.dto.VacationDTO">
+        <result property="vacation_no" column="vacationNo"/>
+        <result property="member_no" column="memberNo"/>
+        <result property="total_vacation_cnt" column="totalVacationCount"/>
+        <result property="left_vacation_cnt" column="leftVacationCount"/>
+        <result property="use_vacation_cnt" column="useVacationCount"/>
+        <result property="vacation_type" column="vacationType"/>
+        <result property="assign_vacation_dt" column="assignVacationDate"/>
+        <result property="expire_vacation_dt" column="expireVacationDate"/>
+    </resultMap>
+
+    <resultMap id="vacationApplication" type="com.vacation.dto.VacationApplicationDTO">
+        <result property="vacation_application_no" column="vacationApplicationNo"/>
+        <result property="vacation_no" column="vacationNo"/>
+        <result property="member_no" column="memberNo"/>
+        <result property="application_dt" column="applicationDate"/>
+        <result property="vacation_start_dt" column="vacationStartDate"/>
+        <result property="vacation_end_dt" column="vacationEndDate"/>
+        <result property="vacation_cancel_yn" column="cancelYN"/>
+        <result property="vacation_cancel_dt" column="cancelDate"/>
+    </resultMap>
+
+    <select id="selectMembers" resultMap="member">
+		SELECT
+			member_no,
+			name,
+			password
+		FROM
+			member
+	</select>
+
+    <select id="selectVacationsPerMember" resultMap="vacation" parameterType="com.vacation.dto.MemberDTO">
+		SELECT
+			vacation_no,
+			member_no,
+			total_vacation_cnt,
+			left_vacation_cnt,
+			use_vacation_cnt,
+			expire_vacation_dt
+        FROM
+			vacation
+        WHERE
+            member_no = #{memberNo}
+	</select>
+
+    <select id="selectVacations" resultMap="vacation">
+		SELECT
+			vacation_no,
+			member_no,
+			total_vacation_cnt,
+			left_vacation_cnt,
+			use_vacation_cnt,
+			expire_vacation_dt
+        FROM
+			vacation
+	</select>
+
+    <insert id="insertVacationPerMember" parameterType="com.vacation.dto.VacationDTO">
+        INSERT INTO vacation (
+            member_no,
+            total_vacation_cnt,
+            left_vacation_cnt,
+            use_vacation_cnt,
+            vacation_type,
+            assign_vacation_dt,
+            expire_vacation_dt
+        ) VALUES (
+            #{memberNo},
+            #{totalVacationCount},
+            #{leftVacationCount},
+            #{useVacationCount},
+            #{vacationType},
+            #{assignVacationDate},
+            #{expireVacationDate}
+        )
+    </insert>
+</mapper>
