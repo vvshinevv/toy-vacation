@@ -14,9 +14,9 @@ public class Scheduler {
     private VacationService vacationService;
 
     /**
-     * 1년 매월 1월 1일에 휴가 지급 스케줄러
+     * 매년 01월 01일 00시 00분 00초에 휴가 지급 스케줄러
      * **/
-    @Scheduled(cron = "0 0 1 1 ?")
+    @Scheduled(cron = "0 0 0 1 1 ?")
     public void init() {
         log.debug("연차 지급 스케줄러 시작!!");
         vacationService.assignAnnualVacationToAllMember();

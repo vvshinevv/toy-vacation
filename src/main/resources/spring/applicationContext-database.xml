@@ -6,8 +6,16 @@
     <jdbc:embedded-database id="vacationDataSource" type="H2">
         <jdbc:script location="classpath:sql/vacation.sql"/>
     </jdbc:embedded-database>
+    <jdbc:embedded-database id="loginDataSource" type="H2">
+        <jdbc:script location="classpath:sql/login.sql"/>
+    </jdbc:embedded-database>
     <bean id="vacationSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="vacationDataSource"/>
+        <property name="mapperLocations" value="classpath*:sqlmap/**/*.xml"/>
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+    </bean>
+    <bean id="loginSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="loginDataSource"/>
         <property name="mapperLocations" value="classpath*:sqlmap/**/*.xml"/>
         <property name="configLocation" value="classpath:/mybatis-config.xml"/>
     </bean>

@@ -1,43 +1,28 @@
 package com.vacation.dto;
 
+import com.vacation.domain.Member;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class MemberDTO {
-
     private long memberNo;
     private String name;
     private String password;
     private List<VacationDTO> vacationDTOs;
 
-    public long getMemberNo() {
-        return memberNo;
-    }
+    public static MemberDTO of(Member member) {
+        long memberNo = member.getMemberNo().getMemberNo();
+        String name = member.getMemberName().getName();
 
-    public void setMemberNo(long memberNo) {
-        this.memberNo = memberNo;
-    }
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setMemberNo(memberNo);
+        memberDTO.setName(name);
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<VacationDTO> getVacationDTOs() {
-        return vacationDTOs;
-    }
-
-    public void setVacationDTOs(List<VacationDTO> vacationDTOs) {
-        this.vacationDTOs = vacationDTOs;
+        return memberDTO;
     }
 }

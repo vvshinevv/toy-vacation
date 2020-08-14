@@ -8,6 +8,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
+			classpath:spring/applicationContext-bean.xml
+			classpath:spring/applicationContext-config.xml
 			classpath:spring/applicationContext-database.xml
 			classpath:spring/applicationContext-bean.xml
 		</param-value>
@@ -30,7 +32,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!-- filter -->
+	<!-- character filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

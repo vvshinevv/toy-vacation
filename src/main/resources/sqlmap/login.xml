@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MAPPER 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.login">
+
+    <resultMap id="member" type="com.vacation.dto.MemberDTO">
+        <result property="memberNo" column="member_no"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="selectMember" resultMap="member" parameterType="java.util.Map">
+		SELECT
+			member_no,
+			name,
+			password
+		FROM
+			member
+        WHERE
+            name = #{name}
+	</select>
+</mapper>

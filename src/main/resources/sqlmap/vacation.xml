@@ -3,31 +3,32 @@
 <mapper namespace="com.vacation">
 
     <resultMap id="member" type="com.vacation.dto.MemberDTO">
-        <result property="member_no" column="memberNo"/>
+        <result property="memberNo" column="member_no"/>
         <result property="name" column="name"/>
         <result property="password" column="password"/>
     </resultMap>
 
     <resultMap id="vacation" type="com.vacation.dto.VacationDTO">
-        <result property="vacation_no" column="vacationNo"/>
-        <result property="member_no" column="memberNo"/>
-        <result property="total_vacation_cnt" column="totalVacationCount"/>
-        <result property="left_vacation_cnt" column="leftVacationCount"/>
-        <result property="use_vacation_cnt" column="useVacationCount"/>
-        <result property="vacation_type" column="vacationType"/>
-        <result property="assign_vacation_dt" column="assignVacationDate"/>
-        <result property="expire_vacation_dt" column="expireVacationDate"/>
+        <result property="vacationNo" column="vacation_no"/>
+        <result property="memberNo" column="member_no"/>
+        <result property="totalVacationCount" column="total_vacation_cnt"/>
+        <result property="leftVacationCount" column="left_vacation_cnt"/>
+        <result property="useVacationCount" column="use_vacation_cnt"/>
+        <result property="vacationType" column="vacation_type"/>
+        <result property="assignVacationDate" column="assign_vacation_dt"/>
+        <result property="expireVacationDate" column="expire_vacation_dt"/>
     </resultMap>
 
     <resultMap id="vacationApplication" type="com.vacation.dto.VacationApplicationDTO">
-        <result property="vacation_application_no" column="vacationApplicationNo"/>
-        <result property="vacation_no" column="vacationNo"/>
-        <result property="member_no" column="memberNo"/>
-        <result property="application_dt" column="applicationDate"/>
-        <result property="vacation_start_dt" column="vacationStartDate"/>
-        <result property="vacation_end_dt" column="vacationEndDate"/>
-        <result property="vacation_cancel_yn" column="cancelYN"/>
-        <result property="vacation_cancel_dt" column="cancelDate"/>
+        <result property="vacationApplicationNo" column="vacation_application_no"/>
+        <result property="vacationNo" column="vacation_no"/>
+        <result property="memberNo" column="member_no"/>
+        <result property="applicationDate" column="application_dt"/>
+        <result property="vacationStartDate" column="vacation_start_dt"/>
+        <result property="vacationEndDate" column="vacation_end_dt"/>
+        <result property="useVacationCount" column="use_vacation_cnt"/>
+        <result property="cancelYN" column="vacation_cancel_yn"/>
+        <result property="cancelDate" column="vacation_cancel_dt"/>
     </resultMap>
 
     <select id="selectMembers" resultMap="member">
@@ -39,17 +40,37 @@
 			member
 	</select>
 
-    <select id="selectVacationsPerMember" resultMap="vacation" parameterType="com.vacation.dto.MemberDTO">
+    <select id="selectVacationsPerMemberNo" resultMap="vacation" parameterType="com.vacation.domain.MemberNo">
 		SELECT
 			vacation_no,
 			member_no,
 			total_vacation_cnt,
 			left_vacation_cnt,
 			use_vacation_cnt,
+			vacation_type,
+			assign_vacation_dt,
 			expire_vacation_dt
         FROM
 			vacation
         WHERE
+            member_no = #{memberNo}
+	</select>
+
+    <select id="selectVacation" resultMap="vacation" parameterType="java.util.Map">
+		SELECT
+			vacation_no,
+			member_no,
+			total_vacation_cnt,
+			left_vacation_cnt,
+			use_vacation_cnt,
+			vacation_type,
+			assign_vacation_dt,
+			expire_vacation_dt
+        FROM
+			vacation
+        WHERE
+            vacation_no = #{vacationNo}
+        AND
             member_no = #{memberNo}
 	</select>
 
@@ -60,9 +81,28 @@
 			total_vacation_cnt,
 			left_vacation_cnt,
 			use_vacation_cnt,
+			vacation_type,
+			assign_vacation_dt,
 			expire_vacation_dt
         FROM
 			vacation
+	</select>
+
+    <select id="selectVacationApplication" resultMap="vacationApplication" parameterType="com.vacation.domain.VacationApplicationNo">
+		SELECT
+			vacation_application_no,
+			vacation_no,
+			member_no,
+			application_dt,
+			vacation_start_dt,
+			vacation_end_dt,
+			use_vacation_cnt,
+			vacation_cancel_yn,
+			vacation_cancel_dt
+        FROM
+			vacation_application
+        WHERE
+            vacation_application_no = #{vacationApplicationNo}
 	</select>
 
     <insert id="insertVacationPerMember" parameterType="com.vacation.dto.VacationDTO">
@@ -84,4 +124,44 @@
             #{expireVacationDate}
         )
     </insert>
+
+    <insert id="insertVacationApplication" parameterType="com.vacation.dto.VacationApplicationDTO">
+        INSERT INTO vacation_application (
+            vacation_no,
+            member_no,
+            application_dt,
+            vacation_start_dt,
+            vacation_end_dt,
+            use_vacation_cnt
+        ) VALUES (
+            #{vacationNo},
+            #{memberNo},
+            #{applicationDate},
+            #{vacationStartDate},
+            #{vacationEndDate},
+            #{useVacationCount}
+        )
+    </insert>
+
+    <update id="updateVacationForVacationRequest" parameterType="com.vacation.dto.VacationDTO">
+        UPDATE
+            vacation
+        SET
+            left_vacation_cnt = #{leftVacationCount},
+            use_vacation_cnt = #{useVacationCount}
+        WHERE
+            vacation_no = #{vacationNo}
+        AND
+            member_no = #{memberNo}
+    </update>
+
+    <update id="updateVacationApplicationForCancel" parameterType="com.vacation.dto.VacationApplicationDTO">
+        UPDATE
+            vacation_application
+        SET
+            vacation_cancel_yn = #{cancelYN},
+            vacation_cancel_dt = #{cancelDate}
+        WHERE
+            vacation_application_no = #{vacationApplicationNo}
+    </update>
 </mapper>

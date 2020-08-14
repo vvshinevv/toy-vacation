@@ -1,79 +1,41 @@
 package com.vacation.dto;
 
+import com.vacation.domain.Member;
+import com.vacation.dto.request.VacationRequest;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class VacationApplicationDTO {
-
     private long vacationApplicationNo;
     private long memberNo;
     private long vacationNo;
     private LocalDateTime applicationDate;
     private LocalDateTime vacationStartDate;
     private LocalDateTime vacationEndDate;
+    private float useVacationCount;
     private String cancelYN;
     private LocalDateTime cancelDate;
 
-    public long getVacationApplicationNo() {
-        return vacationApplicationNo;
-    }
+    public static VacationApplicationDTO of(VacationRequest vacationRequest, Member member) {
+        long vacationNo = vacationRequest.getVacationNo();
+        long memberNo = member.getMemberNo().getMemberNo();
+        LocalDateTime applicationDate = LocalDateTime.now();
+        LocalDateTime vacationStartDate = vacationRequest.getStartVacationDate();
+        LocalDateTime vacationEndDate = vacationRequest.getEndVacationDate();
+        float useVacationCount = vacationRequest.getUseVacationCount();
 
-    public void setVacationApplicationNo(long vacationApplicationNo) {
-        this.vacationApplicationNo = vacationApplicationNo;
-    }
+        VacationApplicationDTO vacationApplicationDTO = new VacationApplicationDTO();
+        vacationApplicationDTO.setVacationNo(vacationNo);
+        vacationApplicationDTO.setMemberNo(memberNo);
+        vacationApplicationDTO.setApplicationDate(applicationDate);
+        vacationApplicationDTO.setVacationStartDate(vacationStartDate);
+        vacationApplicationDTO.setVacationEndDate(vacationEndDate);
+        vacationApplicationDTO.setUseVacationCount(useVacationCount);
 
-    public long getMemberNo() {
-        return memberNo;
-    }
-
-    public void setMemberNo(long memberNo) {
-        this.memberNo = memberNo;
-    }
-
-    public long getVacationNo() {
-        return vacationNo;
-    }
-
-    public void setVacationNo(long vacationNo) {
-        this.vacationNo = vacationNo;
-    }
-
-    public LocalDateTime getApplicationDate() {
-        return applicationDate;
-    }
-
-    public void setApplicationDate(LocalDateTime applicationDate) {
-        this.applicationDate = applicationDate;
-    }
-
-    public LocalDateTime getVacationStartDate() {
-        return vacationStartDate;
-    }
-
-    public void setVacationStartDate(LocalDateTime vacationStartDate) {
-        this.vacationStartDate = vacationStartDate;
-    }
-
-    public LocalDateTime getVacationEndDate() {
-        return vacationEndDate;
-    }
-
-    public void setVacationEndDate(LocalDateTime vacationEndDate) {
-        this.vacationEndDate = vacationEndDate;
-    }
-
-    public String getCancelYN() {
-        return cancelYN;
-    }
-
-    public void setCancelYN(String cancelYN) {
-        this.cancelYN = cancelYN;
-    }
-
-    public LocalDateTime getCancelDate() {
-        return cancelDate;
-    }
-
-    public void setCancelDate(LocalDateTime cancelDate) {
-        this.cancelDate = cancelDate;
+        return vacationApplicationDTO;
     }
 }

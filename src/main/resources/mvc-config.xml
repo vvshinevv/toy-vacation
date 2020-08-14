@@ -10,10 +10,18 @@
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper" ref="objectMapper" />
+                <property name="objectMapper" ref="objectMapper"/>
             </bean>
         </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <bean class="com.vacation.resolver.VacationArgumentResolver"/>
+            <bean class="com.vacation.resolver.MemberArgumentResolver"/>
+        </mvc:argument-resolvers>
     </mvc:annotation-driven>
+    <mvc:interceptors>
+        <bean class="com.vacation.interceptor.AuthenticationInterceptor"/>
+    </mvc:interceptors>
+
     <bean name="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
@@ -23,7 +31,7 @@
         </property>
     </bean>
     <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
-        <property name="order" value="1" />
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+        <property name="order" value="1"/>
     </bean>
 </beans>

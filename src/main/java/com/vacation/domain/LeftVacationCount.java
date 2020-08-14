@@ -3,7 +3,7 @@ package com.vacation.domain;
 import lombok.Getter;
 
 @Getter
-public class LeftVacationCount {
+public class LeftVacationCount implements Comparable<Float> {
 
     private float leftVacationCount;
 
@@ -13,5 +13,18 @@ public class LeftVacationCount {
 
     public static LeftVacationCount of(float leftVacationCount) {
         return new LeftVacationCount(leftVacationCount);
+    }
+
+    public void decreaseLeftVacationCount(float useVacationCount) {
+        leftVacationCount -= useVacationCount;
+    }
+
+    public void increaseLeftVacationCount(float useVacationCount) {
+        leftVacationCount += useVacationCount;
+    }
+
+    @Override
+    public int compareTo(Float o) {
+        return Float.compare(leftVacationCount, o);
     }
 }
